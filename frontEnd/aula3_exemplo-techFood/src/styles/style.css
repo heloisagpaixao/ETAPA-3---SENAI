@@ -1,59 +1,141 @@
-*{
+* {
     margin: 0px;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#topo-loja{
+#topo-loja {
     background-color: rgb(60, 34, 0);
     color: rgb(255, 255, 255);
     padding: 20px;
     text-align: center;
 }
 
-#bt-menu, #label-menu{
+#bt-menu,
+#label-menu {
     display: none;
 }
 
-#menu ul{
+#menu ul {
     list-style: none;
     margin-top: 10px;
 }
 
-#menu li{
+#menu li {
     display: inline-block;
     margin: 0 10px;
 }
 
-#menu a{
+#menu a {
     color: rgb(255, 235, 215);
     text-decoration: none;
     font-weight: bold;
 }
 
-.titulo-secao{
+.titulo-secao {
     text-align: center;
     margin-top: 30px;
-    color:  rgb(60, 34, 0);
+    color: rgb(60, 34, 0);
 }
 
 /* ESTRUTURA INICIAL GRID - DESKTOP */
 
-.vitrine-grid{
+.vitrine-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
 }
 
-.card{
+.card {
     border: 3px solid rgb(90, 40, 0);
     padding: 15px;
     border-radius: 8px;
     text-align: center;
 }
 
-.card img{
+.card img {
     max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.preco {
+    display: block;
+    color: rgb(230, 135, 40);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.bt_pedido {
+    background-color: rgb(40, 175, 95);
+    color: rgb(255, 255, 255);
+    border-color: rgb(45, 135, 0);
+    padding: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+#rodape {
+    background-color: rgb(60, 34, 0);
+    color: rgb(255, 255, 255);
+    padding: 30px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* MEDIAS */
+@media screen {
+    #topo-loja h1 {
+        letter-spacing: 2px;
+        /* altera o espaço entre as letras */
+    }
+}
+
+@media only screen and (max-width: 480px) {
+
+    /* apenas para telas e que tenham max-width de 480px */
+    h1 {
+        font-size: 1.2rem;
+        /* para fonte utilizamos o rem, que não perde proporção e é bom para aumentar e diminuir*/
+    }
+}
+
+/* TELA TABLET */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+
+    /* precisa ser uma tela digital e tamanho minimo e maximo */
+    .vitrine-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* TELA CELULAR */
+
+@media screen and (max-width: 600px),
+(orientation: portrait) {
+
+    /*MENU HAMBURGUER/responsivo/retrátil*/
+    #label-menu {
+        display: block;
+        font-size: 2.5rem;
+        color: rgb(230, 135, 40);
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #bt_menu:checked~#menu ul {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .vitrine-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .desc {
+        display: none;
+    }
+
 }
