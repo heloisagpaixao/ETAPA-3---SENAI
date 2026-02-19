@@ -38,3 +38,22 @@
     color:  rgb(60, 34, 0);
 }
 
+/* ESTRUTURA INICIAL GRID - DESKTOP */
+
+.vitrine-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.card{
+    border: 3px solid rgb(90, 40, 0);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.card img{
+    max-width: 100%;
+}
