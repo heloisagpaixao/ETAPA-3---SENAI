@@ -125,7 +125,11 @@
         margin-top: 10px;
     }
 
-    #bt_menu:checked~#menu ul {
+    #menu ul{
+        display: none;
+    }
+
+    #bt_menu:checked ~ #menu ul {
         display: block;
         padding: 10px 0;
     }
@@ -138,4 +142,16 @@
         display: none;
     }
 
+    #menu li {
+        display: block;
+        margin: 15px 0;
+        border-bottom: 1px solid rgb(60, 34, 0);
+        padding-bottom: 10px;
+    }
+}
+
+@media not screen {
+    #menu, .bt_pedido, #label-menu, #bt_menu{
+        display: none;
+    }
 }
