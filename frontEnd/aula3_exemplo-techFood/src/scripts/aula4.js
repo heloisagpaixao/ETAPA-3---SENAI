@@ -18,9 +18,6 @@ const lasanha = new Prato("Lasana Bolonhesa", 45.00)
 
 const cliente = prompt("Bem-vindo, cliente! Para um atendimento personalizado, digite o seu nome:")
 
-let nomeFormatado = cliente.trim().toUpperCase()
-alert(`Muito prazer, ${nomeFormatado}!`)
-
 // const horaAgora = new Date()
 
 // const hora = horaAgora.getHours()
