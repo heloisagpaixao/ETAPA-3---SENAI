@@ -33,6 +33,10 @@
     font-weight: bold;
 }
 
+#menu a:hover{
+    color: rgb(255, 255, 255);
+}
+
 .titulo-secao {
     text-align: center;
     margin-top: 30px;
@@ -75,6 +79,11 @@
     padding: 5px;
     width: 100%;
     cursor: pointer;
+}
+
+.bt_pedido:hover {
+    background-color: rgb(219, 255, 196);
+    color: rgb(3, 37, 0);
 }
 
 #rodape {
@@ -125,11 +134,11 @@
         margin-top: 10px;
     }
 
-    #menu ul{
+    #menu ul {
         display: none;
     }
 
-    #bt_menu:checked ~ #menu ul {
+    #bt_menu:checked~#menu ul {
         display: block;
         padding: 10px 0;
     }
@@ -151,7 +160,11 @@
 }
 
 @media not screen {
-    #menu, .bt_pedido, #label-menu, #bt_menu{
+
+    #menu,
+    .bt_pedido,
+    #label-menu,
+    #bt_menu {
         display: none;
     }
 }
