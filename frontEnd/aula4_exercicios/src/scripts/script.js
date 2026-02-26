@@ -53,7 +53,11 @@ class Veiculo {
         this.ano = ano
     }
 
-    idadeVeiculo(){
-    }
+    idadeVeiculo(idade){
+    return anoAtual - this.ano;
+}}
 
-}
+const carro1 = new Veiculo("Corolla", "Toyota", 2020)
+
+let anoAtual = prompt(`Olá, usuário! Digite qual ano estamos:`)
+alert(`O ${carro1.modelo} tem ${carro1.idadeVeiculo(anoAtual)} anos.`)
