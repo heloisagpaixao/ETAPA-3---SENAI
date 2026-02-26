@@ -46,4 +46,15 @@
 // }
 
 // EXERCÍCIO 5
+class Veiculo {
+    constructor(modelo, marca, ano) {
+        this.modelo = modelo,
+        this.marca = marca,
+        this.ano = ano
+    }
 
+    idadeVeiculo(){
+        
+    }
+
+}
