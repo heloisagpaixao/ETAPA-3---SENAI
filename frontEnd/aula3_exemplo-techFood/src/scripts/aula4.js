@@ -3,6 +3,12 @@ class Prato {
         this.nome = nome,
             this.preco = preco
     }
+
+    exibirEmReais(total){
+        return "R$ " + total.toFixed(2)
+
+    }
+
 }
 
 const lasanha = new Prato("Lasana Bolonhesa", 45.00)
@@ -30,7 +36,8 @@ const querPrato = confirm(`Olá, ${nomeFormatado}! Quer um prato?`)
 if (querPrato) {
     let quantidade = prompt(`Hoje temos Lasanha Bolonhesa, quantas você quer?`)
     let total = lasanha.preco * quantidade
-    alert(total)
+    // alert(total)
+    alert(`Bacana! O seu total de ${lasanha.nome} é de R$ ${lasanha.exibirEmReais(total)}.`)
 } else {
     alert(`Ok! Obrigado pela visita e volte sempre!!`)
 }
