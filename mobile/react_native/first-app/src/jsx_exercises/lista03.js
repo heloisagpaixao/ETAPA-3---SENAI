@@ -42,7 +42,6 @@ export default function Lista03() {
                         </Text>
                     ))}
             </View>
-
         </ScrollView>
     );
 }
