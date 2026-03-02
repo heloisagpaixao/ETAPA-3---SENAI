@@ -3,9 +3,8 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 export default function Lista01() {
     const linguagem = "JavaScript";
     const ano = 2025;
-
     const preco = 49.9;
-
+    
     function formatarPreco(preco) {
         return `R$ ${preco.toFixed(2)}`
     }
@@ -22,13 +21,13 @@ export default function Lista01() {
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 2 - Variáveis no JSX </Text>
-                <Text> Linguagem: {linguagem} </Text>
-                <Text> Ano: {ano} </Text>
+                <Text style={styles.texto}> Linguagem: {linguagem} </Text>
+                <Text style={styles.texto}> Ano: {ano} </Text>
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 3 - Função no JSX </Text>
-                <Text> Preço: {formatarPreco(preco)} </Text>
+                <Text style={styles.texto}> Preço: {formatarPreco(preco)} </Text>
             </View>
         </ScrollView>
     );

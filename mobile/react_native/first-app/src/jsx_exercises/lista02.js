@@ -22,19 +22,19 @@ export default function Lista02() {
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 1 - Operador Ternário </Text>
-                <Text> Status: {loja_aberta ? "Aberta" : "Fechada"} </Text>
+                <Text style={styles.texto}> Status: {loja_aberta ? "Aberta" : "Fechada"} </Text>
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 2 - Operador && </Text>
-                <Text> Promoções: </Text>
-                {tem_promocao && <Text> Promoção ativa! Aproveite os descontos. </Text>}
-                {!tem_promocao && <Text></Text>}
+                <Text style={styles.texto}> Promoções: </Text>
+                {tem_promocao && <Text style={styles.texto}> Promoção ativa! Aproveite os descontos. </Text>}
+                {!tem_promocao && <Text style={styles.texto}></Text>}
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 3 - Condicional com Múltiplas Condições </Text>
-                <Text> Status de Aprovação: </Text>
+                <Text style={styles.texto}> Status de Aprovação: </Text>
                 {verificarNota(nota)}
             </View>
         </ScrollView>
