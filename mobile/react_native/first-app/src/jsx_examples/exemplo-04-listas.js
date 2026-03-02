@@ -34,10 +34,10 @@ export default function Exemplo04() {
             <View style={styles.exemplo}>
                 <Text style={styles.subtitulo}> Map com Filter </Text>
                 {alunos
-                    .filter((aluno) => aluno.nota <= 7)
+                    .filter((aluno) => aluno.nota >= 7)
                     .map((aluno) => (
                         <Text key={aluno.id}>
-                            Aprovado {aluno.nome}!! - Nota: {aluno.nota}
+                            Aprovado - Aluno: {aluno.nome} - Nota: {aluno.nota}
                         </Text>
                     ))}
             </View>
