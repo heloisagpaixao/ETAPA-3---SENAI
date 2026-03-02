@@ -8,6 +8,7 @@ export default function Lista03() {
         { id: 2, nome: "Calça", preco: 89.90 },
         { id: 3, nome: "Tênis", preco: 199.90 },
     ];
+    const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     return (
         <ScrollView style={styles.container}>
@@ -24,7 +25,22 @@ export default function Lista03() {
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 2 - Lista de Produtos </Text>
-                
+                {produtos.map((produt) => (
+                    <Text key={produt.id}>
+                        Produto: {produt.nome} - Preço: R$ {produt.preco.toFixed(2)}
+                    </Text>
+                ))}
+            </View>
+
+            <View>
+                <Text style={styles.label}>Exercício 3 - Filtrar Números Pares </Text>
+                {numeros
+                    .filter((numero) => numero % 2 == 0)
+                    .map((number) => (
+                        <Text key={number}>
+                            {number}
+                        </Text>
+                    ))}
             </View>
 
         </ScrollView>
