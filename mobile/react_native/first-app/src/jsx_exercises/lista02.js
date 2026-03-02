@@ -1,35 +1,23 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
-export default function Lista01() {
-    const linguagem = "JavaScript";
-    const ano = 2025;
+export default function Lista02() {
 
-    const preco = 49.9;
-
-    function formatarPreco(preco) {
-        return `R$ ${preco.toFixed(2)}`
-    }
+    const loja_aberta = true;
 
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.titulo}>Lista 01 - HeloisaPaixao </Text>
+            <Text style={styles.titulo}>Lista 02 - HeloisaPaixao </Text>
 
             <View style={styles.card}>
-                <Text style={styles.label}>Exercício 1 - View com Text </Text>
-                <Text style={styles.texto}> Olá, </Text>
-                <Text style={styles.texto}> Mundo! </Text>
+                <Text style={styles.label}>Exercício 1 - Operador Ternário </Text>
+                <Text> Status: {loja_aberta ? "Aberta" : "Fechada"} </Text>
             </View>
 
             <View style={styles.card}>
-                <Text style={styles.label}>Exercício 2 - Variáveis no JSX </Text>
-                <Text> Linguagem: {linguagem} </Text>
-                <Text> Ano: {ano} </Text>
+                <Text style={styles.label}>Exercício 2 - Operador && </Text>
+                <Text> Status: {loja_aberta ? "Aberta" : "Fechada"} </Text>
             </View>
 
-            <View style={styles.card}>
-                <Text style={styles.label}>Exercício 3 - Função no JSX </Text>
-                <Text> Preço: {formatarPreco(preco)} </Text>
-            </View>
         </ScrollView>
     );
 }
