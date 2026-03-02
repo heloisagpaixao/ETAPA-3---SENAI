@@ -32,7 +32,7 @@ export default function Lista03() {
                 ))}
             </View>
 
-            <View>
+            <View style={styles.card}>
                 <Text style={styles.label}>Exercício 3 - Filtrar Números Pares </Text>
                 {numeros
                     .filter((numero) => numero % 2 == 0)
