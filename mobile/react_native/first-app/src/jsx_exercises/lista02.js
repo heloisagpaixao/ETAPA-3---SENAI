@@ -3,6 +3,18 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 export default function Lista02() {
 
     const loja_aberta = true;
+    const tem_promocao = true;
+    const nota = 7.5;
+
+    function verificarNota(nota) {
+        if (nota >= 7) {
+            return <Text style={{color: "green"}}> Aprovado!!</Text>
+        } else if (nota < 5 && nota >= 0) {
+            return <Text style={{color: "red"}}> Reprovado.</Text>
+        } else {
+            return <Text style={{color: "orange"}}> Recuperação.</Text>
+        }
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -15,9 +27,16 @@ export default function Lista02() {
 
             <View style={styles.card}>
                 <Text style={styles.label}>Exercício 2 - Operador && </Text>
-                <Text> Status: {loja_aberta ? "Aberta" : "Fechada"} </Text>
+                <Text> Promoções: </Text>
+                {tem_promocao && <Text> Promoção ativa! Aproveite os descontos. </Text>}
+                {!tem_promocao && <Text></Text>}
             </View>
 
+            <View style={styles.card}>
+                <Text style={styles.label}>Exercício 3 - Condicional com Múltiplas Condições </Text>
+                <Text> Status de Aprovação: </Text>
+                {verificarNota(nota)}
+            </View>
         </ScrollView>
     );
 }
