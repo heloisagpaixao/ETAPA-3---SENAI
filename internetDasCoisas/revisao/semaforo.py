@@ -26,5 +26,5 @@ while True:
     #Semáforo FECHADO
     ledVerde.value(0)
     ledAmarelo.value(0)
-    ledVermelho.value(1)
+    ledVermelho.value(0)
     sleep(2)
