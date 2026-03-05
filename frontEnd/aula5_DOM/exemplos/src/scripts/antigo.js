@@ -9,6 +9,8 @@ const listaCards = document.getElementsByClassName("card");
 // Busca todas as tags <a> do documento. Também entrega uma lista (HTMLCollection).
 const links = document.getElementsByTagName("a");
 
+
+
 // --- EXIBIÇÃO BÁSICA ---
 console.log("1. O elemento topo:", topo);
 console.log("2. O primeiro card da lista:", listaCards[0]);
@@ -19,7 +21,6 @@ console.log("5. A cor do cabeçalho:", topo.style.backgroundColor);
 // Pega todos os estilos que o navegador calculou para o topo
 const estilosReais = window.getComputedStyle(topo);
 console.log("5. A cor real do cabeçalho (do CSS):", estilosReais.backgroundColor);
-
 
 console.log("=== EXPLORANDO PROPRIEDADES VISUAIS ===");
 
@@ -45,6 +46,7 @@ console.log("O menu lateral está ativado?:", checkbox.checked);
 // 9. LISTA DE CLASSES (classList)
 // Mostra todas as classes que o elemento possui.
 console.log("Classes do card:", listaCards[0].classList);
+
 
 
 // --- EXPLICAÇÃO: console.log vs console.dir ---
