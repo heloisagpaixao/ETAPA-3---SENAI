@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Lista01 from './jsx_listas_HELOISA-PAIXAO/lista01';
-import Lista02 from './jsx_listas_HELOISA-PAIXAO/lista02';
-import Lista03 from './jsx_listas_HELOISA-PAIXAO/lista03';
+import ViewExamples01 from './basic_components/view_examples01';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Lista03/>
+      <ViewExamples01/>
       <StatusBar style="auto" />
     </View>
   );

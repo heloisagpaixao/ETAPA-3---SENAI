@@ -1,15 +1,11 @@
-// ============================================
-// Arquivo Base
-// ============================================
-
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Scaffold() {
+export default function ViewExamples01() {
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}></Text>
-      <Text style={styles.subtitulo}></Text>
-      {/* VAMOS CONSTRUIR AQUI E USAR styles.exemplo */}
+      <Text style={styles.titulo}>Flex Direction</Text>
+
+      <View style={styles.exemplo}></View>
     </View>
   );
 }
@@ -38,5 +34,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: "#fff",
     borderRadius: 8,
+  },
+  box: {
+    width: 50,
+    height: 50,
+    backgroundColor: "#4285f4",
+    borderRadius: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textBox: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
