@@ -1,32 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 
-export default function ViewExamples01() {
+export default function ViewExamples02() {
     return (
         <View style={styles.container}>
 
             <Text style={styles.titulo}>Flex Direction</Text>
             <View style={styles.exemplo}>
-                <View style={{ flexDirection: "row", gap: 8 }}>
-                    <View style={styles.box} />
-                    <View style={styles.box} />
-                    <View style={styles.box} />
-                </View>
+                
             </View>
 
             <Text style={styles.titulo}>Justify Content</Text>
             <View style={styles.exemplo}>
-                <View style={{
-                    flexDirection: "column",
-                    height: 300,
-                    width: 300,
-                    gap: 8,
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}>
-                    <View style={styles.box} />
-                    <View style={styles.box} />
-                    <View style={styles.box} />
-                </View>
+                
             </View>
         </View>
     );
