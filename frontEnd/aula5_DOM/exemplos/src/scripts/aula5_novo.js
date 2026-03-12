@@ -14,6 +14,9 @@ const imgLasanha = document.querySelector('img[alt="Lasanha Tech"]');
 // 4. Selecionando o checkbox do menu pelo ID (Sintaxe de CSS #)
 const checkMenu = document.querySelector('#bt_menu');
 
+const imagem_lasanha = document.querySelector('#foto-destque')
+
+const card_lasanha = document.querySelector()
 
 // --- EXEMPLOS PRÁTICOS PARA MOSTRAR AOS ALUNOS ---
 
