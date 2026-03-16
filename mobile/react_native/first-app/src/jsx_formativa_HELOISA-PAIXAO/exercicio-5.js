@@ -1,29 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function ExercicioView03() {
+export default function ExercicioView05() {
     return <View style={styles.container}>
 
-        <Text> Espaçamento com space-between </Text>
+        <Text> Layout de Duas Colunas </Text>
         <View style={styles.container}>
             <View style={{
                 flexDirection: "row",
-                height: 100,
-                width: "100%",
-                gap: 8,
-                justifyContent: "space-between",
-                alignItems: "center"
+                gap: 5,
+                flex: 1,
+                justifyContent: "center",
             }}>
 
-                <View style={[styles.redBox]}>
-                    <Text style={styles.textStyle}> R </Text>
+                <View style={[styles.blueBox]}>
+                    <Text style={styles.textStyle}> Coluna 1 </Text>
                 </View>
 
                 <View style={[styles.greenBox]}>
-                    <Text style={styles.textStyle}> G </Text>
-                </View>
-
-                <View style={[styles.blueBox]}>
-                    <Text style={styles.textStyle}> B </Text>
+                    <Text style={styles.textStyle}> Coluna 2 </Text>
                 </View>
             </View>
         </View>
@@ -41,24 +35,22 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-    redBox: {
-        height: 70,
-        width: 70,
+    orangeBox: {
+        height: 120,
+        width: 120,
 
-        backgroundColor: "red",
+        backgroundColor: "orange",
         alignItems: "center",
         justifyContent: "center",
     },
     greenBox: {
-        height: 70,
-        width: 70,
+        flex: 1,
         backgroundColor: "green",
         alignItems: "center",
         justifyContent: "center",
     },
     blueBox: {
-        height: 70,
-        width: 70,
+        flex: 1,
         backgroundColor: "blue",
         alignItems: "center",
         justifyContent: "center",

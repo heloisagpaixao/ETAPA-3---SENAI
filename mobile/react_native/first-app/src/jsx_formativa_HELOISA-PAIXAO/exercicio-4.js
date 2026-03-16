@@ -1,30 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function ExercicioView03() {
+export default function ExercicioView04() {
     return <View style={styles.container}>
 
-        <Text> Espaçamento com space-between </Text>
+        <Text> Três Caixas em Linha </Text>
         <View style={styles.container}>
             <View style={{
-                flexDirection: "row",
-                height: 100,
+                flexDirection: "column",
+                height: 120,
                 width: "100%",
                 gap: 8,
-                justifyContent: "space-between",
+                justifyContent: "center",
                 alignItems: "center"
             }}>
 
-                <View style={[styles.redBox]}>
-                    <Text style={styles.textStyle}> R </Text>
+                <View style={[styles.orangeBox, { flex: 1 }]}>
+                    <Text style={styles.textStyle}> Centro </Text>
                 </View>
 
-                <View style={[styles.greenBox]}>
-                    <Text style={styles.textStyle}> G </Text>
-                </View>
-
-                <View style={[styles.blueBox]}>
-                    <Text style={styles.textStyle}> B </Text>
-                </View>
             </View>
         </View>
     </View>;
@@ -41,24 +34,24 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-    redBox: {
-        height: 70,
-        width: 70,
+    orangeBox: {
+        height: 120,
+        width: 120,
 
-        backgroundColor: "red",
+        backgroundColor: "orange",
         alignItems: "center",
         justifyContent: "center",
     },
     greenBox: {
-        height: 70,
-        width: 70,
+        height: 120,
+        width: 120,
         backgroundColor: "green",
         alignItems: "center",
         justifyContent: "center",
     },
     blueBox: {
-        height: 70,
-        width: 70,
+        height: 120,
+        width: 120,
         backgroundColor: "blue",
         alignItems: "center",
         justifyContent: "center",

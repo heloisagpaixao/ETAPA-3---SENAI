@@ -1,32 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function ExercicioView03() {
+export default function ExercicioView07() {
     return <View style={styles.container}>
 
-        <Text> Espaçamento com space-between </Text>
-        <View style={styles.container}>
+        <Text> Grid 2x2 </Text>
             <View style={{
-                flexDirection: "row",
-                height: 100,
-                width: "100%",
+                flexDirection: "column",
                 gap: 8,
-                justifyContent: "space-between",
-                alignItems: "center"
+                width: "100%",
+                flex: 1,
+                justifyContent: "center",
             }}>
 
-                <View style={[styles.redBox]}>
-                    <Text style={styles.textStyle}> R </Text>
+                <View style={styles.row}>
+                    <View style={styles.greenBox} />
+                    <View style={styles.redBox} />
                 </View>
 
-                <View style={[styles.greenBox]}>
-                    <Text style={styles.textStyle}> G </Text>
-                </View>
-
-                <View style={[styles.blueBox]}>
-                    <Text style={styles.textStyle}> B </Text>
+                <View style={styles.row}>
+                    <View style={styles.blueBox} />
+                    <View style={styles.orangeBox} />
                 </View>
             </View>
-        </View>
     </View>;
 }
 
@@ -42,25 +37,32 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     redBox: {
-        height: 70,
-        width: 70,
-
+        flex: 1,
         backgroundColor: "red",
         alignItems: "center",
         justifyContent: "center",
     },
+    orangeBox: {
+        flex: 1,
+        backgroundColor: "orange",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     greenBox: {
-        height: 70,
-        width: 70,
+        flex: 1,
         backgroundColor: "green",
         alignItems: "center",
         justifyContent: "center",
     },
     blueBox: {
-        height: 70,
-        width: 70,
+        flex: 1,
         backgroundColor: "blue",
         alignItems: "center",
         justifyContent: "center",
     },
+    row: {
+        flexDirection: "row",
+        flex: 1,
+        gap: 8,
+    }
 });
