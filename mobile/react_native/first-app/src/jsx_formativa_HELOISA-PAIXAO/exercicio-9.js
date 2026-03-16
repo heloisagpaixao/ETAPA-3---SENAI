@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-
-export default function ExercicioView01() {
+export default function ExercicioView09() {
     return <View style={styles.container}>
 
-        <Text> Coluna de Três Caixas </Text>
+        <Text> Semáforo </Text>
         <View style={styles.container}>
             <View style={{
                 flexDirection: "column",
