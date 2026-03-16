@@ -5,26 +5,14 @@ export default function ExercicioView09() {
 
         <Text> Semáforo </Text>
         <View style={styles.container}>
-            <View style={{
-                flexDirection: "column",
-                height: 80,
-                gap: 8,
-                justifyContent: "center"
-            }}>
-
-                <View style={[styles.redBox, { width: 80 }]}>
-                    <Text style={styles.textStyle}> Vermelho </Text>
-                </View>
-
-                <View style={[styles.blueBox, { width: 80 }]}>
-                    <Text style={styles.textStyle}> Azul </Text>
-                </View>
-
-                <View style={[styles.greenBox, { width: 80 }]}>
-                    <Text style={styles.textStyle}> Verde </Text>
-                </View>
+            
+            <View style={styles.fundoSemaforo}>
+                <View style={styles.redBox}></View>
+                <View style={styles.yellowBox}></View>
+                <View style={styles.greenBox}></View>
             </View>
-            </View>
+
+        </View>
     </View>;
 }
 
@@ -42,23 +30,30 @@ const styles = StyleSheet.create({
     redBox: {
         height: 80,
         width: 80,
-
         backgroundColor: "red",
-        alignItems: "center",
-        justifyContent: "center",
+        borderRadius: 40,
     },
     greenBox: {
         height: 80,
         width: 80,
         backgroundColor: "green",
-        alignItems: "center",
-        justifyContent: "center",
+        borderRadius: 40,
     },
-    blueBox: {
+    yellowBox: {
         height: 80,
         width: 80,
-        backgroundColor: "blue",
-        alignItems: "center",
-        justifyContent: "center",
+        backgroundColor: "yellow",
+        borderRadius: 40,
     },
+    fundoSemaforo: {
+        flexDirection: "column",
+        height: 300,
+        width: 100,
+        backgroundColor: "black",
+
+        padding: "2px",
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        borderRadius: 20
+    }
 });

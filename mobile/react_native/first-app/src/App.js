@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import ExercicioView09 from './jsx_formativa_HELOISA-PAIXAO/exercicio-9';
-import ExercicioView01 from './jsx_formativa_HELOISA-PAIXAO/exercicio-1';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ExercicioView01/>
+      <ExercicioView09/>
       <StatusBar style="auto" />
     </View>
   );
