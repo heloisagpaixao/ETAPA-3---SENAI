@@ -13,7 +13,7 @@ nomeUsuario.textContent = "Heloísa Gabrielly Paixão"
 
 // 2. AVATAR (!!!!!!!!!!!!!)
 // Modifica o atributo "src" da imagem de perfil
-fotoPerfil.src = "src/images/foto-perfil_dom.png"
+fotoPerfil.src = "foto-perfil_dom.png"
 
 
 // 3. PERSONALIZAÇÃO
