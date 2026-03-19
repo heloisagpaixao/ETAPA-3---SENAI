@@ -4,16 +4,16 @@ const pool = require('./config/database')
 const app = express()
 app.use(express.json())
 
-const queryAsync=(sql, values = []) => {
+const queryAsync = (sql, values = []) => {
     return new Promise((resolve, reject) => {
         pool.query(sql, values, (err, results) => {
-            if(err) reject(err)
+            if (err) reject(err)
             else resolve(results)
         })
     })
 }
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.send("API CINEMA")
 })
 
@@ -21,8 +21,8 @@ app.get('/', (req,res) => {
 // CRUD FILMES
 // =======================================================
 
-app.get('/filmes', async(req,res) => {
-    try{
+app.get('/filmes', async (req, res) => {
+    try {
         const filmes = await queryAsync('SELECT * FROM filme')
         res.json({
             sucesso: true,
@@ -36,17 +36,12 @@ app.get('/filmes', async(req,res) => {
             mensagem: `Erro ao listar filmes.`,
             erro: erro.message
         })
-        
+
     }
     // pool.query('SELECT * FROM filme', (err, results) =>{
     //     res.json(results)
     // })
 })
-
-//     // pool.query('SELECT * FROM filme WHERE id = ?', [id],(err, results) =>{
-//     //     res.json(results)
-//     // })
-// })
 
 app.get('/filmes/:id', async (req, res) => {
     try {
@@ -81,20 +76,24 @@ app.get('/filmes/:id', async (req, res) => {
             erro: erro.message
         })
     }
+    //     // pool.query('SELECT * FROM filme WHERE id = ?', [id],(err, results) =>{
+    //     //     res.json(results)
+    //     // })
+    // })
 })
 
-app.post('/filmes', async(req,res) => {
+app.post('/filmes', async (req, res) => {
     try {
-        const {titulo, genero, duracao, classificacao, data_lancamento} = req.body
+        const { titulo, genero, duracao, classificacao, data_lancamento } = req.body
 
-        if(!titulo || !genero || !duracao){
+        if (!titulo || !genero || !duracao) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Título, genero e ducação são obrigatórios'
             })
         }
 
-        if(typeof duracao !== 'number' || duracao <= 0 ){
+        if (typeof duracao !== 'number' || duracao <= 0) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Duração deve ser um número positivo.'
@@ -109,7 +108,7 @@ app.post('/filmes', async(req,res) => {
             data_lancamento: data_lancamento || null
         }
 
-        const resultado = await queryAsync('INSERT INTO filme SET ?',[novoFilme])
+        const resultado = await queryAsync('INSERT INTO filme SET ?', [novoFilme])
 
         res.status(201).json({
             sucesso: true,
@@ -124,14 +123,14 @@ app.post('/filmes', async(req,res) => {
             erro: erro.message
         })
     }
-} )
+})
 
-app.put('/filmes/:id', async (req,res) =>{
+app.put('/filmes/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        const {titulo, genero, duracao, classificacao, data_lancamento} = req.body
+        const { id } = req.params
+        const { titulo, genero, duracao, classificacao, data_lancamento } = req.body
 
-        if(!id || isNaN(id)){
+        if (!id || isNaN(id)) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'ID filme inválido.'
@@ -139,8 +138,8 @@ app.put('/filmes/:id', async (req,res) =>{
         }
 
         const filmeExiste = await queryAsync('SELECT * FROM filme WHERE id = ?', [id])
-       
-        if(filmeExiste.length === 0){
+
+        if (filmeExiste.length === 0) {
             return res.status(404).json({
                 sucesso: false,
                 mensagem: 'Filme não encontrado.'
@@ -149,10 +148,10 @@ app.put('/filmes/:id', async (req,res) =>{
 
         const filmeAtualizado = {}
 
-        if(titulo !== undefined) filmeAtualizado.titulo = titulo.trim()
-        if(genero !== undefined) filmeAtualizado.genero = genero.trim()
-        if(duracao !== undefined){
-            if(typeof duracao !== 'number' || duracao <= 0){
+        if (titulo !== undefined) filmeAtualizado.titulo = titulo.trim()
+        if (genero !== undefined) filmeAtualizado.genero = genero.trim()
+        if (duracao !== undefined) {
+            if (typeof duracao !== 'number' || duracao <= 0) {
                 return res.status(400).json({
                     sucesso: false,
                     mensagem: 'Duracao deve ser um número positivo.'
@@ -160,17 +159,17 @@ app.put('/filmes/:id', async (req,res) =>{
             }
             filmeAtualizado.duracao = duracao
         }
-        if(classificacao !== undefined) filmeAtualizado.classificacao = classificacao
-        if(data_lancamento !== undefined) filmeAtualizado.data_lancamento = data_lancamento
+        if (classificacao !== undefined) filmeAtualizado.classificacao = classificacao
+        if (data_lancamento !== undefined) filmeAtualizado.data_lancamento = data_lancamento
 
-        if(Object.keys(filmeAtualizado).length === 0){
+        if (Object.keys(filmeAtualizado).length === 0) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Nenhum campo para atualizar'
             })
         }
 
-        await queryAsync('UPDATE filme SET ? WHERE id = ?',[filmeAtualizado, id])
+        await queryAsync('UPDATE filme SET ? WHERE id = ?', [filmeAtualizado, id])
         res.json({
             sucesso: true,
             mensagem: 'Filme atualizado.'
@@ -186,11 +185,11 @@ app.put('/filmes/:id', async (req,res) =>{
     }
 })
 
-app.delete('/filmes/:id', async (req,res) =>{
+app.delete('/filmes/:id', async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
 
-        if(!id || isNaN(id)){
+        if (!id || isNaN(id)) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'ID filme inválido.'
@@ -198,8 +197,8 @@ app.delete('/filmes/:id', async (req,res) =>{
         }
 
         const filmeExiste = await queryAsync('SELECT * FROM filme WHERE id = ?', [id])
-       
-        if(filmeExiste.length === 0){
+
+        if (filmeExiste.length === 0) {
             return res.status(404).json({
                 sucesso: false,
                 mensagem: 'Filme não encontrado.'
@@ -210,7 +209,7 @@ app.delete('/filmes/:id', async (req,res) =>{
 
         res.status(200).json({
             sucesso: true,
-            mensagem:'Filme apagado'
+            mensagem: 'Filme apagado'
         })
     } catch (erro) {
         console.error('Erro ao apagar filme:', erro)
@@ -226,8 +225,8 @@ app.delete('/filmes/:id', async (req,res) =>{
 // CRUD SALAS
 // =======================================================
 
-app.get('/salas', async(req,res) => {
-    try{
+app.get('/salas', async (req, res) => {
+    try {
         const salas = await queryAsync('SELECT * FROM sala')
         res.json({
             sucesso: true,
@@ -241,7 +240,7 @@ app.get('/salas', async(req,res) => {
             mensagem: `Erro ao listar salas.`,
             erro: erro.message
         })
-        
+
     }
     // pool.query('SELECT * FROM filme', (err, results) =>{
     //     res.json(results)
@@ -283,18 +282,18 @@ app.get('/salas/:id', async (req, res) => {
     }
 })
 
-app.post('/salas', async(req,res) => {
+app.post('/salas', async (req, res) => {
     try {
-        const {nome, capacidade} = req.body
+        const { nome, capacidade } = req.body
 
-        if(!nome || !capacidade){
+        if (!nome || !capacidade) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Nome da sala é obrigatória!'
             })
         }
 
-        if(typeof capacidade !== 'number' || capacidade <= 0 ){
+        if (typeof capacidade !== 'number' || capacidade <= 0) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'A capacidade deve ser um número positivo.'
@@ -306,7 +305,7 @@ app.post('/salas', async(req,res) => {
             capacidade: capacidade
         }
 
-        const resultado = await queryAsync('INSERT INTO sala SET ?',[novaSala])
+        const resultado = await queryAsync('INSERT INTO sala SET ?', [novaSala])
 
         res.status(201).json({
             sucesso: true,
@@ -321,14 +320,14 @@ app.post('/salas', async(req,res) => {
             erro: erro.message
         })
     }
-} )
+})
 
-app.put('/salas/:id', async (req,res) =>{
+app.put('/salas/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        const {nome, capacidade} = req.body
+        const { id } = req.params
+        const { nome, capacidade } = req.body
 
-        if(!id || isNaN(id)){
+        if (!id || isNaN(id)) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'ID de sala inválido.'
@@ -336,8 +335,8 @@ app.put('/salas/:id', async (req,res) =>{
         }
 
         const salaExiste = await queryAsync('SELECT * FROM sala WHERE id = ?', [id])
-       
-        if(salaExiste.length === 0){
+
+        if (salaExiste.length === 0) {
             return res.status(404).json({
                 sucesso: false,
                 mensagem: 'Sala não encontrada.'
@@ -345,10 +344,10 @@ app.put('/salas/:id', async (req,res) =>{
         }
 
         const salaAtualizada = {}
-        
-        if(nome !== undefined) salaAtualizada.nome = nome.trim()
-        if(capacidade !== undefined){
-            if(typeof capacidade !== 'number' || capacidade <= 0){
+
+        if (nome !== undefined) salaAtualizada.nome = nome.trim()
+        if (capacidade !== undefined) {
+            if (typeof capacidade !== 'number' || capacidade <= 0) {
                 return res.status(400).json({
                     sucesso: false,
                     mensagem: 'Capacidade deve ser um número positivo.'
@@ -357,14 +356,14 @@ app.put('/salas/:id', async (req,res) =>{
             salaAtualizada.capacidade = capacidade
         }
 
-        if(Object.keys(salaAtualizada).length === 0){
+        if (Object.keys(salaAtualizada).length === 0) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Nenhum campo para atualizar'
             })
         }
 
-        await queryAsync('UPDATE sala SET ? WHERE id = ?',[salaAtualizada, id])
+        await queryAsync('UPDATE sala SET ? WHERE id = ?', [salaAtualizada, id])
         res.json({
             sucesso: true,
             mensagem: 'Sala atualizada!.'
@@ -380,11 +379,11 @@ app.put('/salas/:id', async (req,res) =>{
     }
 })
 
-app.delete('/salas/:id', async (req,res) =>{
+app.delete('/salas/:id', async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
 
-        if(!id || isNaN(id)){
+        if (!id || isNaN(id)) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'ID da sala inválido.'
@@ -392,8 +391,8 @@ app.delete('/salas/:id', async (req,res) =>{
         }
 
         const salaExiste = await queryAsync('SELECT * FROM sala WHERE id = ?', [id])
-       
-        if(salaExiste.length === 0){
+
+        if (salaExiste.length === 0) {
             return res.status(404).json({
                 sucesso: false,
                 mensagem: 'Sala não encontrada.'
@@ -404,7 +403,7 @@ app.delete('/salas/:id', async (req,res) =>{
 
         res.status(200).json({
             sucesso: true,
-            mensagem:'Sala apagada.'
+            mensagem: 'Sala apagada.'
         })
     } catch (erro) {
         console.error('Erro ao apagar sala:', erro)
