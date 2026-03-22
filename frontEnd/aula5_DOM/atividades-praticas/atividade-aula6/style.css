@@ -40,6 +40,17 @@ input {
     font-weight: bold;
 }
 
+#btn-reset {
+    width: 100%;
+    padding: 10px;
+    background: blue;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
 #caixa-cor {
     height: 80px;
     background: #95a5a6;
