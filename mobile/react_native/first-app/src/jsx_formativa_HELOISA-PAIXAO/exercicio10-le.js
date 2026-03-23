@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     rowTop: {
         flexDirection: "row",
-        heigh: 40,
+        heigh: 110,
         gap: 8,
     },
     rowMain: {
