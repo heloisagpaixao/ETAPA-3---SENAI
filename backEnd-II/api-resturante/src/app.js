@@ -13,24 +13,23 @@ const queryAsync = (sql, values = []) => {
     })
 }
 
-app.get('/', (req, res) => {
-    res.send("API SABOR DIGITAL")
-})
-
 // =======================================================
 // CRUD PRODUTOS
 // =======================================================
 
+app.get('/', (req, res) => {
+    res.send("API SABOR DIGITAL")
+})
+
 app.get('/produtos', async (req, res) => {
     try {
-        const produtos = await queryAsync('SELECT * FROM produto')
+        const produtos = await queryAsync('SELECT * FROM produto ORDER BY id DESC')
         res.json({
             sucesso: true,
             dados: produtos,
             total: produtos.length
         })
     } catch (erro) {
-        console.error(`Erro ao listar produtos: ${erro}.`)
         res.status(500).json({
             sucesso: false,
             mensagem: `Erro ao listar produtos.`,
@@ -42,7 +41,6 @@ app.get('/produtos', async (req, res) => {
 app.get('/produtos/:id', async (req, res) => {
     try {
         const { id } = req.params
-
         if (!id || isNaN(id)) {
             return res.status(400).json({
                 sucesso: false,
@@ -50,7 +48,6 @@ app.get('/produtos/:id', async (req, res) => {
             })
         }
         const produto = await queryAsync('SELECT * FROM produto WHERE id = ?', [id])
-
         if (produto.length === 0) {
             return res.status(404).json({
                 sucesso: false,
@@ -77,10 +74,10 @@ app.post('/produtos', async (req, res) => {
     try {
         const { nome, descricao, preco, disponivel } = req.body
 
-        if (!nome || !descricao || !preco || !disponivel) {
+        if (typeof disponivel !== 'boolean') {
             return res.status(400).json({
                 sucesso: false,
-                mensagem: 'Todos os campos são obrigatórios.'
+                mensagem: 'Disponibilidade deve ser verdadeira ou falsa.'
             })
         }
 
@@ -91,10 +88,10 @@ app.post('/produtos', async (req, res) => {
             })
         }
 
-        if (typeof disponivel !== 'boolean') {
+        if (!nome || !descricao || !preco) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem: 'Disponibilidade deve ser verdadeira ou falsa.'
+                mensagem: 'Todos os campos são obrigatórios.'
             })
         }
 
@@ -106,13 +103,11 @@ app.post('/produtos', async (req, res) => {
         }
 
         const resultado = await queryAsync('INSERT INTO produto SET ?', [novoProduto])
-
         res.status(201).json({
             sucesso: true,
             mensagem: 'Produto cadastrado com sucesso.',
             id: resultado.insertId
         })
-
     } catch (erro) {
         console.error('Erro ao salvar produto:', erro)
         res.status(500).json({
@@ -138,7 +133,6 @@ app.put('/produtos/:id', async (req, res) => {
         }
 
         const produtoExiste = await queryAsync('SELECT * FROM produto WHERE id = ?', [id])
-
         if (produtoExiste.length === 0) {
             return res.status(404).json({
                 sucesso: false,
@@ -147,27 +141,29 @@ app.put('/produtos/:id', async (req, res) => {
         }
 
         const produtoAtualizado = {}
-
         if (nome !== undefined) produtoAtualizado.nome = nome.trim()
         if (descricao !== undefined) produtoAtualizado.descricao = descricao.trim()
         if (preco !== undefined) {
-            if (typeof preco !== 'number' || duracao <= 0) {
+            if (typeof preco !== 'number' || preco < 0) {
                 return res.status(400).json({
                     sucesso: false,
-                    mensagem: 'Preço deve ser um número posi'
+                    mensagem: 'Preço deve ser um número positivo.'
                 })
             }
             produtoAtualizado.preco = preco
         }
-        if (typeof disponivel !== 'boolean') {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: 'Disponibilidade deve ser verdadeira ou falsa.'
-            })
+        if (disponivel !== undefined) {
+            if (typeof disponivel !== 'boolean') {
+                return res.status(400).json({
+                    sucesso: false,
+                    mensagem: 'Disponibilidade deve ser verdadeira ou falsa.'
+                })
+            }
             produtoAtualizado.disponivel = disponivel
         }
-        if (Object.keys(produtoAtualizado).length === 0){
-            return res.statusMessage(400).json({
+
+        if (Object.keys(produtoAtualizado).length === 0) {
+            return res.status(400).json({
                 sucesso: false,
                 mensagem: 'Nenhum campo para atualizar.'
             })
@@ -178,7 +174,6 @@ app.put('/produtos/:id', async (req, res) => {
             sucesso: true,
             mensagem: 'Produto atualizado.'
         })
-
     } catch (erro) {
         console.error('Erro ao atualizar produto:', erro)
         res.status(500).json({
@@ -189,6 +184,39 @@ app.put('/produtos/:id', async (req, res) => {
     }
 })
 
+// =======================================================
 
+app.delete('/produtos/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        if (!id || isNaN(id)) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'ID de produto inválido.'
+            })
+        }
+
+        const produtoExiste = await queryAsync('SELECT * FROM produto WHERE id = ?', [id])
+        if (produtoExiste.length === 0) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: 'Produto não encontrado.'
+            })
+        }
+
+        await queryAsync('DELETE FROM produto WHERE id = ?', [id])
+        res.status(200).json({
+            sucesso: true,
+            mensagem: 'Produto apagado com sucesso!'
+        })
+    } catch (erro) {
+        console.error('Erro ao apagar produto:', erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao apagar produto.',
+            erro: erro.message
+        })
+    }
+})
 
 module.exports = app
