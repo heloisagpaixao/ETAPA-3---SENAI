@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS db_sabordigital_b;
-USE sabordigital;
+USE db_sabordigital_b;
 
 -- Criação da tabela produto
 CREATE TABLE IF NOT EXISTS produto (

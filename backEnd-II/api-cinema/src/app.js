@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/filmes', async (req, res) => {
     try {
-        const filmes = await queryAsync('SELECT * FROM filme')
+        const filmes = await queryAsync('ELECT * FROM filSme')
         res.json({
             sucesso: true,
             dados: filmes,
