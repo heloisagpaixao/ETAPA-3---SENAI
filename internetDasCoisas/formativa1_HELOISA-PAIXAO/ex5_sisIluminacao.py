@@ -1,26 +1,53 @@
-from machine import Pin, PWM
+from machine import Pin, PWM, ADC
 from utime import sleep
 
-botao_up = Pin(14, Pin.IN, Pin.PULL_DOWN)
-botao_down = Pin(15, Pin.IN, Pin.PULL_DOWN)
+red = PWM(Pin(13))
+green = PWM(Pin(14))
+blue = PWM(Pin(15))
 
-led = PWM(Pin(16))
-led.freq(1000)
+# Declaração explícita de frequência e duty cycle inicial
+red.freq(1000)
+red.duty_u16(0)
 
-brilho = 0
-passo = 6553  # ~10%
+green.freq(1000)
+green.duty_u16(0)
+
+blue.freq(1000)
+blue.duty_u16(0)
+
+potenciometro = ADC(28)
+btn = Pin(17, Pin.IN, Pin.PULL_DOWN)
+
+cor_ativa = 0
+estado_ant = 0
 
 while True:
-    if botao_up.value() == 1:
-        brilho += passo
-        if brilho > 65535:
-            brilho = 65535
-        sleep(0.2)
+    estado_atual = btn.value()
+    # Verifica clique (transição de 0 para 1)
+    
+    if estado_atual == 1 and estado_ant == 0:
+        cor_ativa += 1
 
-    if botao_down.value() == 1:
-        brilho -= passo
-        if brilho < 0:
-            brilho = 0
-        sleep(0.2)
+        if cor_ativa > 2:
+            cor_ativa = 0
+    
+    estado_ant = estado_atual
+    
+    brilho = potenciometro.read_u16()
 
-    led.duty_u16(brilho)
+    if cor_ativa == 0:
+        red.duty_u16(brilho)
+        green.duty_u16(0)
+        blue.duty_u16(0)
+
+    elif cor_ativa == 1:
+        red.duty_u16(0)
+        green.duty_u16(brilho)
+        blue.duty_u16(0)
+
+    elif cor_ativa == 2:
+        red.duty_u16(0)
+        green.duty_u16(0)
+        blue.duty_u16(brilho)
+
+    sleep(0.05)
