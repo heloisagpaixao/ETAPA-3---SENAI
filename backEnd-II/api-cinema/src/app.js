@@ -242,9 +242,6 @@ app.get('/salas', async (req, res) => {
         })
 
     }
-    // pool.query('SELECT * FROM filme', (err, results) =>{
-    //     res.json(results)
-    // })
 })
 
 app.get('/salas/:id', async (req, res) => {
@@ -414,11 +411,5 @@ app.delete('/salas/:id', async (req, res) => {
         })
     }
 })
-
-// =======================================================
-// CRUD SESSÕES
-// =======================================================
-
-
 
 module.exports = app
