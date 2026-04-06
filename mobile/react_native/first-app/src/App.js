@@ -1,13 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Somativa01 from './HELOISA-PAIXAO_jsx_somativa/exercicio1';
-import Somativa02 from './HELOISA-PAIXAO_jsx_somativa/exercicio2';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Botao from "./basic_components/props/5_botao";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Somativa02/>
-      <StatusBar style="auto" />
+      <Botao titulo="Entrar" />
+      <Botao titulo="Sair" />
+      <Botao titulo="Cadastrar" />
     </View>
   );
 }
@@ -15,6 +15,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eaeaea',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
