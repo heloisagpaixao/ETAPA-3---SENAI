@@ -7,7 +7,7 @@ const hora = tempoAgora.getHours();
 if (hora >= 0 && hora < 12) {
     saudacao.textContent = "Bom dia! Bem-vindo à Sessão Matinê!"
 }
-if (hora >= 12 && hora <= 18) {
+else if (hora >= 12 && hora <= 18) {
     saudacao.textContent = "Boa tarde! Sessão da Tarde liberada!"
 }
 else {
@@ -46,16 +46,18 @@ const muralCriticas = document.querySelector("#mural-criticas");
 campoFilme.addEventListener('input', () => {
     const filmeDigitado = campoFilme.value;
     const filmeFormatado = filmeDigitado.concat()
-
-    btnPublicar.addEventListener("click", () => {
-        muralCriticas.innerHTML += '<article class="card-critica"><h3>🎬 Filme: ' + filmeFormatado + '⭐</h3></article>';
-    })
+    
 });
+
+btnPublicar.addEventListener("click", () => {
+        muralCriticas.innerHTML += '<article class="card-critica"><h3>🎬 Filme:' + filmeFormatado + '⭐</h3></article>';
+    });
+
 
 // Missão 5: Apagar o Quadro (Esvaziar com innerHTML e Focus) ***
 const btnApagar = document.querySelector("#btn-apagar");
 
 btnApagar.addEventListener("click", () => {
-    muralCriticas.value = " "
+    muralCriticas.innerHTML = " "
     campoFilme.focus()
-})
+});
