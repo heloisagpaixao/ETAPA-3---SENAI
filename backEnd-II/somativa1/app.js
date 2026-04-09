@@ -85,7 +85,7 @@ app.get('/produtos/id', async (req, res) => {
 
 // 3) CADASTRAR PRODUTO
 app.post('/produtos', async (req, res) => {
-    const novoProduto = [nome, descricao, preco, categoria, disponivel]
+    const {nome, descricao, preco, categoria, disponivel} = req.body
 
     try {
 
