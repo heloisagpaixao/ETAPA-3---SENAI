@@ -54,7 +54,7 @@ btnPublicar.addEventListener("click", () => {
     });
 
 
-// Missão 5: Apagar o Quadro (Esvaziar com innerHTML e Focus) ***
+// Missão 5: Apagar o Quadro (Esvaziar com innerHTML e Focus)
 const btnApagar = document.querySelector("#btn-apagar");
 
 btnApagar.addEventListener("click", () => {
