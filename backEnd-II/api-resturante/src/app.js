@@ -21,6 +21,8 @@ app.get('/', (req, res) => {
     res.send("API SABOR DIGITAL")
 })
 
+// =======================================================
+
 app.get('/produtos', async (req, res) => {
     try {
         const produtos = await queryAsync('SELECT * FROM produto ORDER BY id DESC')
