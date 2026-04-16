@@ -3,7 +3,6 @@ function erroServidor() {
   res.status(500).json({
     sucesso: false,
     mensagem: `Erro ao listar usuários.`,
-    erro: erro.message,
   });
 }
 
@@ -31,11 +30,10 @@ app.get("/produtos/:id", async (req, res) => {
     const { id } = req.params;
     const erroValidacaoUsuario = validarIdUsuario(id);
 
-    if (erroValida) {
+    if (erroValidacaoUsuario) {
       return res.status(400).json({
         sucesso: false,
         mensagem: `Erro ao encontrar usuário.`,
-        erro: erro.message,
       });
     }
 
@@ -46,7 +44,6 @@ app.get("/produtos/:id", async (req, res) => {
       return res.status(404).json({
         sucesso: false,
         mensagem: `Usuário não encontrado.`,
-        erro: erro.message,
       });
     }
     res.json({
@@ -81,7 +78,6 @@ app.post("/pedidos", async (req, res) => {
       res.status(400).json({
         sucesso: false,
         mensagem: `Erro ao atualizar pedido.`,
-        erro: erro.message,
       });
     }
 
@@ -89,7 +85,6 @@ app.post("/pedidos", async (req, res) => {
       res.status(400).json({
         sucesso: false,
         mensagem: `Erro ao atualizar pedido.`,
-        erro: erro.message,
       });
     }
 
@@ -123,15 +118,14 @@ function validarDadosSala(dados) {
 
 app.put("/salas/:id", async (req, res) => {
   try {
-    const id = req.params;
-    const dados = req.body;
+    const { id } = req.params;
+    const { dados } = req.body;
     const erroEncontrarSala = validarIdSala(id);
 
     if (erroEncontrarSala) {
       return res.status(400).json({
         sucesso: false,
         mensagem: `Erro ao encontrar sala.`,
-        erro: erro.message,
       });
     }
 
@@ -143,7 +137,6 @@ app.put("/salas/:id", async (req, res) => {
       return res.status(404).json({
         sucesso: false,
         mensagem: `Erro ao encontrar sala.`,
-        erro: erro.message,
       });
     }
 
@@ -172,14 +165,13 @@ app.put("/salas/:id", async (req, res) => {
 });
 
 app.delete("/salas/:id", async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
 
   try {
     if (erroEncontrarSala) {
       return res.status(400).json({
         sucesso: false,
         mensagem: `Erro ao encontrar sala.`,
-        erro: erro.message,
       });
     }
 
@@ -189,7 +181,6 @@ app.delete("/salas/:id", async (req, res) => {
       return res.status(404).json({
         sucesso: false,
         mensagem: `Erro ao encontrar sala.`,
-        erro: erro.message,
       });
     }
 
