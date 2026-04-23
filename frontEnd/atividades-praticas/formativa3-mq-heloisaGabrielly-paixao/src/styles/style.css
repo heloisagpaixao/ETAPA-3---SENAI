@@ -101,7 +101,7 @@ header h1 {
 }
 
 /* CONFIRGURAÇÃO - Largura máxima de 480px */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px), (orientation: portrait) {
   .grid-pacotes {
     grid-template-columns: 1fr;
   }
