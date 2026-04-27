@@ -1,13 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import ContadorExample from "./hooks/useState_example";
-import TelaDeLogin from "./hooks/useRef_example";
-import TelaMoeda from "./hooks/useEffect_example";
+import Recados from "./hooks/heloisaPaixao_exercicioHooks";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <TelaMoeda/>
+      <Recados/>
     </View>
   );
 }
