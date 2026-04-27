@@ -48,19 +48,19 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-nativ
 export default function Recados() {
   // TODO 1 — Crie um estado para o texto que está sendo digitado
   // Dica: valor inicial é uma string vazia ''
-  const [mensagem, setMensagem] = useState("");
+  const [recado, setRecado] = useState("");
 
   // TODO 2 — Crie um estado para o recado que foi enviado
   // Dica: valor inicial é uma string vazia ''
-  const [mensagemEnviada, setMensagemEnviada] = useState("");
+  const [enviado, setEnviado] = useState("");
 
   // TODO 3 — Crie a função handleEnviar
   // Ela deve:
   //   - Atualizar o recado enviado com o texto atual
   //   - Limpar o campo de texto (setar texto para '')
   function handleEnviar() {
-    setMensagemEnviada(mensagem);
-    setMensagem("");
+    setEnviado(recado);
+    setRecado("");
   }
 
   return (
@@ -79,8 +79,8 @@ export default function Recados() {
       <TextInput
         style={styles.input}
         placeholder="Digite sua mensagem..."
-        value={mensagem}
-        onChangeText={(novaMensagem) => setMensagem(novaMensagem)}
+        value={recado}
+        onChangeText={(recado) => setRecado(recado)}
       />
 
       {/*
@@ -95,7 +95,7 @@ export default function Recados() {
         Dica: use a renderização condicional
           {recadoEnviado !== '' && (...)}
       */}
-      {setMensagemEnviada !== "" && <Text> {mensagemEnviada} </Text>}
+      {setEnviado !== "" && <Text> {enviado} </Text>}
     </View>
   );
 }
