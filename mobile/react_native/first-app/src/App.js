@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Recados from "./hooks/heloisaPaixao_exercicioHooks";
+import ListaDeCompras from "./jsx_textInput_flatList/exercicio-aula6/listaDeCompras";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Recados/>
+      <ListaDeCompras />
     </View>
   );
 }
@@ -13,7 +13,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
