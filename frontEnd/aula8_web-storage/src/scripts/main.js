@@ -53,8 +53,8 @@ function inicializarVitrine() {
 
       const card = clicado.parentElement;
       const nomePrato = card.querySelector("h3").textContent;
-      const quantidade = card.querySelector(".qtd-valor").textContent;
-      const preco = card.querySelector(".preco").textContent;
+      const quantidade = Number(card.querySelector(".qtd-valor").textContent);
+      const preco = parseFloat(card.querySelector(".preco").getAttribute("data-preco"));
 
       // Efeito visual quando clicado "Pedir Agora"
       clicado.textContent = "✔️ Adicionado!";
@@ -96,17 +96,14 @@ function inicializarVitrine() {
 }
 
 function atualizarPrecoCard(box) {
-  // 04. FUNÇÕES DE ATUALIZAR PREÇO
-  function atualizarPrecoCard(box) {
-    const card = box.parentElement;
-    const spanPreco = card.querySelector(".preco");
-    const precoUnitario = parseFloat(spanPreco.getAttribute("data-preco"));
-    const quantidade = Number(box.querySelector(".qtd-valor").textContent);
+  const card = box.parentElement;
+  const spanPreco = card.querySelector(".preco");
+  const precoUnitario = parseFloat(spanPreco.getAttribute("data-preco"));
+  const quantidade = Number(box.querySelector(".qtd-valor").textContent);
 
-    const total = precoUnitario * quantidade;
-    spanPreco.textContent = "R$" + total.toFixed(2).replace(".", ",");
-    spanPreco.style.color = total > 150 ? "#c0392b" : "#e67e22";
-  }
+  const total = precoUnitario * quantidade;
+  spanPreco.textContent = "R$" + total.toFixed(2).replace(".", ",");
+  spanPreco.style.color = total > 150 ? "#c0392b" : "#e67e22";
 }
 
 function salvarPedido(pedido) {
@@ -121,6 +118,4 @@ function salvarPedido(pedido) {
   localStorage.setItem("techfood_pedidos", JSON.stringify(lista));
 }
 
-function atualizarContadorPedidos(){
-    
-}
+function atualizarContadorPedidos() {}
