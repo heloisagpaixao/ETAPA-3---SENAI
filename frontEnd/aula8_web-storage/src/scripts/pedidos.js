@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   renderizarPedidos();
-  // continua...
+  configurarLimparPedidos();
 });
 
 function renderizarPedidos() {
@@ -11,7 +11,7 @@ function renderizarPedidos() {
 
   if (!lista) return;
 
-  const pedidos = JSON.parse(localStorage.getItem("techfood_pedido") || "[]");
+  const pedidos = JSON.parse(localStorage.getItem("techfood_pedidos") || "[]");
   if (pedidos.length === 0) {
     lista.innerHTML =
       "<li class='pedido-vazio'>Nenhum pedido ainda. Acesse o " +
@@ -20,6 +20,7 @@ function renderizarPedidos() {
     if (spanTotal) spanTotal.textContent = "R$ 0,00";
     if (spanResumo) spanResumo.textContent = "R$ 0,00";
     if (spanContador) spanContador.textContent = "0 itens";
+    return;
   }
 
   lista.innerHTML = "";
@@ -39,9 +40,9 @@ function renderizarPedidos() {
       pedido.qtd +
       " x " +
       " R$ " +
-      pedido.preco.tofixed(2).replace(".", ",") +
+      pedido.preco.toFixed(2).replace(".", ",") +
       " = <span class='subtotal-item'> R$ " +
-      pedido.subtotal.tofixed(2).replace(".", ",") +
+      pedido.subtotal.toFixed(2).replace(".", ",") +
       "</span>";
 
     // criando botão para REMOVER prato
@@ -55,27 +56,40 @@ function renderizarPedidos() {
       );
 
       lista.splice(indice, 1);
-      localStorage.setItem("techfood_pedidos");
+      localStorage.setItem("techfood_pedidos", JSON.stringify(lista));
+
+      renderizarPedidos();
     }); // FIM btn-remover
 
     li.appendChild(textoSpan);
     li.appendChild(btnRemover);
     lista.appendChild(li);
-    total += pedido.subtotal
-
-    // mais um trecho
-    const totalFmt = " R$ " + total.tofixed(2).replace(".", ",")
-
+    total += pedido.subtotal;
   }); // FIM pedidos.forEach
-}
 
-function configurarLimparPedidos(){
-  const btn = document.querySelector("#btn-limpar-pedidos")
+  // mais um trecho
+  const totalFmt = " R$ " + total.toFixed(2).replace(".", ",");
+  if (spanTotal) spanTotal.textContent = totalFmt;
+  if (spanResumo) spanResumo.textContent = totalFmt;
 
-  if(!btn) return // INATIVO se não houver nenhum pedido
+  // Está contando quantos itens tem no carrinho
+  const totalItens = pedidos.reduce(function (acc, p) {
+    return acc + p.qtd;
+  }, 0);
 
-  btn.addEventListener("click", function(){
-    localStorage.removeItem("techfood_pedidos")
+  if (spanContador) {
+    spanContador.textContent =
+      totalItens + (totalItens === 1 ? " item" : " itens");
+  }
+} // FIM renderizarPedidos
+
+function configurarLimparPedidos() {
+  const btn = document.querySelector("#btn-limpar-pedidos");
+
+  if (!btn) return; // INATIVO se não houver nenhum pedido
+
+  btn.addEventListener("click", function () {
+    localStorage.removeItem("techfood_pedidos");
     renderizarPedidos();
-  })
+  });
 }
