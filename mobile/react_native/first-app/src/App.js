@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import ListaDeCompras from "./jsx_textInput_flatList/exercicio-aula6/listaDeCompras";
+import { NavigationContainer } from "@react-navigation/native";
+import StackNavigator from "./navigation/examples/stack_navigator";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ListaDeCompras />
-    </View>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer> 
   );
 }
 
