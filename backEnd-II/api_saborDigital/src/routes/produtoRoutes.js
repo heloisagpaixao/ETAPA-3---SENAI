@@ -1,11 +1,14 @@
-const express = require("express")
-const router = express.Router() //  responsável por verificar o endereçamento
-const ProdutoController = require("../controllers/produtoController")
+const express = require("express");
+const router = express.Router();
+const ProdutoController = require("../controllers/produtoController");
+const uploadImagem = require("../config/multer"); // Nosso arquivo do Multer
 
-router.get("/", ProdutoController.listarProdutos) // NÃO precisa mandar os atributos (req, res)
-router.get("/:id", ProdutoController.buscarProdutoPorId)
-router.post("/", ProdutoController.cadastrarProduto)
-router.put("/:id", ProdutoController.atualizarProduto)
-router.delete("/:id", ProdutoController.deletarProduto)
+router.get("/", ProdutoController.listarProdutos);
+router.get("/:id", ProdutoController.buscarProdutoPorId);
+router.delete("/:id", ProdutoController.deletarProduto);
 
-module.exports = router 
+// Aplicando o Multer no POST e no PUT
+router.post("/", uploadImagem, ProdutoController.cadastrarProduto);
+router.put("/:id", uploadImagem, ProdutoController.atualizarProduto);
+
+module.exports = router;

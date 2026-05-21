@@ -1,4 +1,5 @@
 const ProdutoRepository = require("../repositories/produtoRepository");
+const path = require("path");
 
 class ProdutoService {
   async listarProdutos() {
@@ -7,8 +8,8 @@ class ProdutoService {
   }
 
   // =============================================================== //
-
-  async buscarProdutoPorId() {
+  // CORRIGIDO: Agora recebe o parâmetro 'id' corretamente nos parênteses
+  async buscarProdutoPorId(id) {
     if (!id || isNaN(id)) {
       throw { status: 400, mensagem: "ID inválido." };
     }
@@ -23,31 +24,60 @@ class ProdutoService {
   }
 
   // =============================================================== //
+  // REFEITO: Centralizando erros e validações de imagem no Cadastro
+  async cadastrarProduto(pacote) {
+    const { imagem, corpo } = pacote;
+    const { nome, descricao, preco, categoria, disponivel } = corpo;
 
-  async cadastrarProduto(dados) {
-    // NÃO precisa ser o mesmo nome da Repository
-    const { nome, descricao, preco, categoria, disponivel } = dados;
+    // --- Validações de Imagem Obrigatória ---
+    if (!imagem) {
+      throw { status: 400, mensagem: "A imagem do produto é obrigatória." };
+    }
 
+    // Limite de tamanho: 2 Megabytes
+    const tamanhoMaximo = 2 * 1024 * 1024;
+    if (imagem.size > tamanhoMaximo) {
+      throw {
+        status: 400,
+        mensagem: "A imagem é muito grande! O limite é de 2MB.",
+      };
+    }
+
+    // Validação de Extensão
+    const extensoesPermitidas = [".jpg", ".jpeg", ".png"];
+    const extensaoDoArquivo = path.extname(imagem.originalname).toLowerCase();
+    if (!extensoesPermitidas.includes(extensaoDoArquivo)) {
+      throw {
+        status: 400,
+        mensagem:
+          "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG são permitidos.",
+      };
+    }
+
+    // --- Suas Validações de Texto Padrão ---
     if (!nome || !descricao || preco === undefined) {
       throw {
         status: 400,
         mensagem: "Nome, descrição e preço são obrigatórios.",
       };
     }
-    if (typeof preco !== "number" || preco <= 0) {
-      throw {
-        status: 400,
-        mensagem: "Preço deve ser um número positivo.",
-      };
+
+    // Como o form-data envia tudo como texto, convertemos o preço para número
+    const precoNum = Number(preco);
+    if (isNaN(precoNum) || precoNum <= 0) {
+      throw { status: 400, mensagem: "Preço deve ser um número positivo." };
     }
+
+    // Cria a string da URL virtual para salvar no banco
+    const foto_produto = `/arquivos/${arquivo.filename}`;
 
     const novoProduto = {
       nome: nome.trim(),
       descricao: descricao.trim(),
-      preco,
-      categoria: categoria || null, // SE não for preenchido, ele fica com undefined
-      // e o banco não interpreta o undefined, mas sim o null.
+      preco: precoNum,
+      categoria: categoria || null,
       disponivel: disponivel || true,
+      foto_produto: foto_produto, // Lembrar de ter essa coluna idêntica no MySQL
     };
 
     const resultado = await ProdutoRepository.cadastrarProduto(novoProduto);
@@ -60,8 +90,8 @@ class ProdutoService {
   }
 
   // =============================================================== //
-
-  async atualizarProduto(id, dados) {
+  // REFEITO: Centralizando erros e validações de imagem na Atualização
+  async atualizarProduto(id, pacote) {
     if (!id || isNaN(id)) {
       throw { status: 400, mensagem: "ID inválido." };
     }
@@ -71,20 +101,51 @@ class ProdutoService {
       throw { status: 404, mensagem: "Produto não encontrado." };
     }
 
-    const produtoAtualizado = {};
-    const { nome, descricao, preco, categoria, disponivel } = dados;
+    const { arquivo, corpo } = pacote;
+    const { nome, descricao, preco, categoria, disponivel } = corpo;
 
-    if (nome !== undefined || nome.trim() !== "")
+    const produtoAtualizado = {};
+
+    // --- Validações de Imagem Opcional (Só roda se uma imagem for enviada) ---
+    if (arquivo) {
+      const tamanhoMaximo = 2 * 1024 * 1024;
+      if (arquivo.size > tamanhoMaximo) {
+        throw {
+          status: 400,
+          mensagem: "A imagem é muito grande! O limite é de 2MB.",
+        };
+      }
+
+      const extensoesPermitidas = [".jpg", ".jpeg", ".png"];
+      const extensaoDoArquivo = path
+        .extname(arquivo.originalname)
+        .toLowerCase();
+      if (!extensoesPermitidas.includes(extensaoDoArquivo)) {
+        throw {
+          status: 400,
+          imagen:
+            "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG são permitidos.",
+        };
+      }
+
+      // Se a imagem for válida, adiciona no objeto de alteração
+      produtoAtualizado.imagem_url = `/arquivos/${arquivo.filename}`;
+    }
+
+    // --- Suas Validações de Texto Padrão ---
+    if (nome !== undefined && nome.trim() !== "")
       produtoAtualizado.nome = nome.trim();
-    // Se o nome que eu criei foi preenchido, ele NÃO está undefined,
-    // ou seja, ele será atualizado em dados.
+
     if (descricao !== undefined) produtoAtualizado.descricao = descricao.trim();
+
     if (preco !== undefined) {
-      if (typeof preco !== "number" || preco <= 0) {
+      const precoNum = Number(preco);
+      if (isNaN(precoNum) || precoNum <= 0) {
         throw { status: 400, mensagem: "Preço deve ser um número positivo." };
       }
+      produtoAtualizado.preco = precoNum;
     }
-    produtoAtualizado.preco = preco;
+
     if (categoria !== undefined) produtoAtualizado.categoria = categoria;
     if (disponivel !== undefined) produtoAtualizado.disponivel = disponivel;
 
@@ -96,7 +157,7 @@ class ProdutoService {
     }
 
     await ProdutoRepository.atualizarProduto(id, produtoAtualizado);
-    return { sucesso: true, mensagem: "Produto atualizado!" };
+    return { sucesso: true, mensagem: "Produto updated!" };
   }
 
   // =============================================================== //
@@ -108,7 +169,7 @@ class ProdutoService {
 
     const idProduto = await ProdutoRepository.buscarProdutoPorId(id);
     if (!idProduto) {
-      throw { status: 404, mensagem: "Produto não encontrado." };
+      throw { status: 404, Extensao: "Produto não encontrado." };
     }
 
     await ProdutoRepository.apagarProduto(id);

@@ -30,11 +30,14 @@ class ProdutoController {
   }
 
   // =============================================================== //
-
+  // MODIFICADO: Passa o arquivo e o corpo juntos para o Service
   async cadastrarProduto(req, res) {
     try {
-      const resultado = await ProdutoService.cadastrarProduto(req.body);
-      res.json(resultado);
+      const resultado = await ProdutoService.cadastrarProduto({
+        corpo: req.body,
+        arquivo: req.file,
+      });
+      res.status(201).json(resultado);
     } catch (erro) {
       res.status(erro.status || 500).json({
         sucesso: false,
@@ -45,10 +48,13 @@ class ProdutoController {
   }
 
   // =============================================================== //
-
+  // MODIFICADO: Passa o ID da URL, o arquivo e o corpo juntos para o Service
   async atualizarProduto(req, res) {
     try {
-      const resultado = await ProdutoService.atualizarProduto(req.body);
+      const resultado = await ProdutoService.atualizarProduto(req.params.id, {
+        corpo: req.body,
+        arquivo: req.file,
+      });
       res.json(resultado);
     } catch (erro) {
       res.status(erro.status || 500).json({
@@ -75,4 +81,4 @@ class ProdutoController {
   }
 }
 
-module.exports = new ProdutoController()
+module.exports = new ProdutoController();
