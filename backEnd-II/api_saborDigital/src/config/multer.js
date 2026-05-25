@@ -8,7 +8,9 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const extensao = path.extname(file.originalname);
-        const nomeUnico = `${Date.now()}-${Math.round(Math.random() * 1E9)}${extensao}`;
+        const nomeSemExtensao = path.basename(file.originalname, extensao);
+        
+        const nomeUnico = `${Date.now()}-${nomeSemExtensao}${extensao}`;
         cb(null, nomeUnico);
     }
 });

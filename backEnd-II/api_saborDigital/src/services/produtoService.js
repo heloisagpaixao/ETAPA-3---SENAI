@@ -106,7 +106,7 @@ class ProdutoService {
 
     const produtoAtualizado = {};
 
-    // --- Validações de Imagem Opcional (Só roda se uma imagem for enviada) ---
+    // --- Validações de Imagem (só roda se uma imagem for enviada) ---
     if (arquivo) {
       const tamanhoMaximo = 2 * 1024 * 1024;
       if (arquivo.size > tamanhoMaximo) {
@@ -123,7 +123,7 @@ class ProdutoService {
       if (!extensoesPermitidas.includes(extensaoDoArquivo)) {
         throw {
           status: 400,
-          imagen:
+          imagem:
             "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG são permitidos.",
         };
       }
