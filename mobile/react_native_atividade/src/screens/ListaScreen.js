@@ -19,7 +19,7 @@ const jogosMock = [
   },
 ];
 
-export default function ListaScreen({ route }) {
+export default function ListaScreen({ route,navigation }) {
   const [itensSalvos, setItensSalvos] = useState(jogosMock);
 
   if (route.params?.novoJogo) {

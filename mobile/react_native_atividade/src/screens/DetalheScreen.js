@@ -55,8 +55,7 @@ export default function DetalheScreen({ route, navigation }) {
           style={[styles.botao, isSalvo && styles.botaoAtivo]}
         >
           <Text style={styles.botaoTexto}>
-            {" "}
-            {isSalvo ? "Remover da Lista" : "Adicionar a Lista"}{" "}
+            {isSalvo ? "Remover da Lista" : "Adicionar a Lista"}
           </Text>
         </TouchableOpacity>
       </ScrollView>
