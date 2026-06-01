@@ -54,7 +54,6 @@ class ProdutoService {
       };
     }
 
-    // --- Suas Validações de Texto Padrão ---
     if (!nome || !descricao || preco === undefined) {
       throw {
         status: 400,
@@ -132,7 +131,6 @@ class ProdutoService {
       produtoAtualizado.imagem_url = `/arquivos/${arquivo.filename}`;
     }
 
-    // --- Suas Validações de Texto Padrão ---
     if (nome !== undefined && nome.trim() !== "")
       produtoAtualizado.nome = nome.trim();
 
@@ -157,7 +155,7 @@ class ProdutoService {
     }
 
     await ProdutoRepository.atualizarProduto(id, produtoAtualizado);
-    return { sucesso: true, mensagem: "Produto updated!" };
+    return { sucesso: true, mensagem: "Produto atualizado!" };
   }
 
   // =============================================================== //
