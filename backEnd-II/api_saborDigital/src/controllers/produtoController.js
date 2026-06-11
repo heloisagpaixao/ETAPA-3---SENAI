@@ -1,5 +1,7 @@
 const ProdutoService = require("../services/produtoService");
 
+// ============================================================ //
+
 class ProdutoController {
   async listarProdutos(req, res) {
     try {
@@ -14,7 +16,7 @@ class ProdutoController {
     }
   }
 
-  // =============================================================== //
+  // ============================================================ //
 
   async buscarProdutoPorId(req, res) {
     try {
@@ -29,8 +31,8 @@ class ProdutoController {
     }
   }
 
-  // =============================================================== //
-  // MODIFICADO: Passa o arquivo e o corpo juntos para o Service
+  // ============================================================ //
+
   async cadastrarProduto(req, res) {
     try {
       const resultado = await ProdutoService.cadastrarProduto({
@@ -47,8 +49,8 @@ class ProdutoController {
     }
   }
 
-  // =============================================================== //
-  // MODIFICADO: Passa o ID da URL, o arquivo e o corpo juntos para o Service
+  // ============================================================ //
+
   async atualizarProduto(req, res) {
     try {
       const resultado = await ProdutoService.atualizarProduto(req.params.id, {
@@ -64,9 +66,7 @@ class ProdutoController {
       });
     }
   }
-
-  // =============================================================== //
-
+  // ============================================================ //
   async deletarProduto(req, res) {
     try {
       const resultado = await ProdutoService.deletarProduto(req.params.id);

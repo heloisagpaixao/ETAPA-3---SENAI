@@ -1,14 +1,16 @@
 const ProdutoRepository = require("../repositories/produtoRepository");
 const path = require("path");
 
+// ============================================================ //
+
 class ProdutoService {
   async listarProdutos() {
     const produtos = await ProdutoRepository.listarProdutos();
     return { sucesso: true, dados: produtos, total: produtos.length };
   }
 
-  // =============================================================== //
-  // CORRIGIDO: Agora recebe o parâmetro 'id' corretamente nos parênteses
+  // ============================================================ //
+
   async buscarProdutoPorId(id) {
     if (!id || isNaN(id)) {
       throw { status: 400, mensagem: "ID inválido." };
@@ -16,41 +18,37 @@ class ProdutoService {
 
     const produto = await ProdutoRepository.buscarProdutoPorId(id);
 
-    if (!produto) {
+    if (!produto || produto.length === 0) {
       throw { status: 404, mensagem: "Produto não encontrado." };
     }
 
     return { sucesso: true, dados: produto[0] };
   }
 
-  // =============================================================== //
-  // REFEITO: Centralizando erros e validações de imagem no Cadastro
+  // ============================================================ //
+
   async cadastrarProduto(pacote) {
-    const { imagem, corpo } = pacote;
+    const { arquivo, corpo } = pacote;
     const { nome, descricao, preco, categoria, disponivel } = corpo;
 
-    // --- Validações de Imagem Obrigatória ---
-    if (!imagem) {
+    if (!arquivo) {
       throw { status: 400, mensagem: "A imagem do produto é obrigatória." };
     }
 
-    // Limite de tamanho: 2 Megabytes
     const tamanhoMaximo = 2 * 1024 * 1024;
-    if (imagem.size > tamanhoMaximo) {
+    if (arquivo.size > tamanhoMaximo) {
       throw {
         status: 400,
         mensagem: "A imagem é muito grande! O limite é de 2MB.",
       };
     }
 
-    // Validação de Extensão
     const extensoesPermitidas = [".jpg", ".jpeg", ".png"];
-    const extensaoDoArquivo = path.extname(imagem.originalname).toLowerCase();
+    const extensaoDoArquivo = path.extname(arquivo.originalname).toLowerCase();
     if (!extensoesPermitidas.includes(extensaoDoArquivo)) {
       throw {
         status: 400,
-        mensagem:
-          "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG são permitidos.",
+        mensagem: "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG.",
       };
     }
 
@@ -61,22 +59,23 @@ class ProdutoService {
       };
     }
 
-    // Como o form-data envia tudo como texto, convertemos o preço para número
     const precoNum = Number(preco);
     if (isNaN(precoNum) || precoNum <= 0) {
       throw { status: 400, mensagem: "Preço deve ser um número positivo." };
     }
 
-    // Cria a string da URL virtual para salvar no banco
-    const foto_produto = `/arquivos/${arquivo.filename}`;
+    let disponivelDB = 1;
+    if (disponivel === "false" || disponivel === false || disponivel === "0") {
+      disponivelDB = 0;
+    }
 
     const novoProduto = {
       nome: nome.trim(),
       descricao: descricao.trim(),
       preco: precoNum,
-      categoria: categoria || null,
-      disponivel: disponivel || true,
-      foto_produto: foto_produto, // Lembrar de ter essa coluna idêntica no MySQL
+      categoria: categoria ? categoria.trim() : null,
+      disponivel: disponivelDB,
+      foto_produto: arquivo.filename, // Salva o nome único gerado pelo Multer
     };
 
     const resultado = await ProdutoRepository.cadastrarProduto(novoProduto);
@@ -84,28 +83,24 @@ class ProdutoService {
     return {
       sucesso: true,
       mensagem: "Produto cadastrado com sucesso!",
-      resultado,
+      id: resultado,
     };
   }
 
-  // =============================================================== //
-  // REFEITO: Centralizando erros e validações de imagem na Atualização
+  // ============================================================ //
+
   async atualizarProduto(id, pacote) {
     if (!id || isNaN(id)) {
       throw { status: 400, mensagem: "ID inválido." };
     }
 
-    const produtoId = await ProdutoRepository.buscarProdutoPorId(id);
-    if (!produtoId) {
-      throw { status: 404, mensagem: "Produto não encontrado." };
-    }
+    await this.buscarProdutoPorId(id);
 
     const { arquivo, corpo } = pacote;
     const { nome, descricao, preco, categoria, disponivel } = corpo;
 
     const produtoAtualizado = {};
 
-    // --- Validações de Imagem (só roda se uma imagem for enviada) ---
     if (arquivo) {
       const tamanhoMaximo = 2 * 1024 * 1024;
       if (arquivo.size > tamanhoMaximo) {
@@ -122,18 +117,16 @@ class ProdutoService {
       if (!extensoesPermitidas.includes(extensaoDoArquivo)) {
         throw {
           status: 400,
-          imagem:
-            "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG são permitidos.",
+          mensagem: "Tipo de arquivo inválido! Apenas JPG, JPEG e PNG.",
         };
       }
 
-      // Se a imagem for válida, adiciona no objeto de alteração
-      produtoAtualizado.imagem_url = `/arquivos/${arquivo.filename}`;
+      // Corrigido para bater com a coluna exata do banco SQL
+      produtoAtualizado.foto_produto = arquivo.filename;
     }
 
     if (nome !== undefined && nome.trim() !== "")
       produtoAtualizado.nome = nome.trim();
-
     if (descricao !== undefined) produtoAtualizado.descricao = descricao.trim();
 
     if (preco !== undefined) {
@@ -144,8 +137,15 @@ class ProdutoService {
       produtoAtualizado.preco = precoNum;
     }
 
-    if (categoria !== undefined) produtoAtualizado.categoria = categoria;
-    if (disponivel !== undefined) produtoAtualizado.disponivel = disponivel;
+    if (categoria !== undefined)
+      produtoAtualizado.categoria = categoria ? categoria.trim() : null;
+
+    if (disponivel !== undefined) {
+      produtoAtualizado.disponivel =
+        disponivel === "false" || disponivel === false || disponivel === "0"
+          ? 0
+          : 1;
+    }
 
     if (Object.keys(produtoAtualizado).length === 0) {
       throw {
@@ -155,21 +155,17 @@ class ProdutoService {
     }
 
     await ProdutoRepository.atualizarProduto(id, produtoAtualizado);
-    return { sucesso: true, mensagem: "Produto atualizado!" };
+    return { sucesso: true, mensagem: "Produto updated!" };
   }
 
-  // =============================================================== //
+  // ============================================================ //
 
   async deletarProduto(id) {
     if (!id || isNaN(id)) {
       throw { status: 400, mensagem: "ID inválido." };
     }
 
-    const idProduto = await ProdutoRepository.buscarProdutoPorId(id);
-    if (!idProduto) {
-      throw { status: 404, Extensao: "Produto não encontrado." };
-    }
-
+    await this.buscarProdutoPorId(id);
     await ProdutoRepository.apagarProduto(id);
     return { sucesso: true, mensagem: "Produto apagado!" };
   }

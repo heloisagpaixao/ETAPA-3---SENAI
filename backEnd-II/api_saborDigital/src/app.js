@@ -1,12 +1,15 @@
 const express = require("express");
-const path = require("path"); // 1. ADICIONE ESTA LINHA SE NÃO EXISTIR
+const path = require("path");
 const app = express();
 const routes = require("./routes");
 
+// Middleware para ler JSON
 app.use(express.json());
 
+// Rotas da API
 app.use("/", routes);
 
-app.use("/arquivos", express.static(path.join(__dirname, "uploads")));
+// Serve as imagens salvas na pasta raiz 'uploads' através da URL /arquivos/...
+app.use("/arquivos", express.static(path.join(__dirname, "..", "uploads")));
 
 module.exports = app;

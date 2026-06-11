@@ -1,28 +1,41 @@
 const pool = require("../config/database");
 
+// ============================================================ //
+
 class ProdutoRepository {
   async listarProdutos() {
-    const listaProdutos = await pool.query("SELECT * FROM produto");
+    // Adicionado [listaProdutos] para desestruturar
+    const [listaProdutos] = await pool.query("SELECT * FROM produto");
     return listaProdutos;
   }
 
   // ============================================================ //
 
   async buscarProdutoPorId(id) {
-    const mostrarProduto = await pool.query(
+    // Adicionado [mostrarProduto] para pegar as linhas retornadas
+    const [mostrarProduto] = await pool.query(
       "SELECT * FROM produto WHERE id = ?",
       [id],
     );
-    return mostrarProduto[0];
+    return mostrarProduto;
   }
 
   // ============================================================ //
 
   async cadastrarProduto(dadosDoProduto) {
-    const resultadoCadastroDeProduto = await pool.query(
-      "INSERT INTO produto SET ?",
-      [dadosDoProduto],
-    );
+    const sql =
+      "INSERT INTO produto (nome, descricao, preco, disponivel, foto_produto, categoria) VALUES (?, ?, ?, ?, ?, ?)";
+
+    const valores = [
+      dadosDoProduto.nome,
+      dadosDoProduto.descricao,
+      dadosDoProduto.preco,
+      dadosDoProduto.disponivel,
+      dadosDoProduto.foto_produto,
+      dadosDoProduto.categoria,
+    ];
+
+    const [resultadoCadastroDeProduto] = await pool.query(sql, valores);
     return resultadoCadastroDeProduto.insertId;
   }
 
@@ -43,12 +56,13 @@ class ProdutoRepository {
 
     const query = `UPDATE produto SET ${camposProduto.join(",")} WHERE id = ?`;
 
-    const resultado = await pool.query(query, dadoProduto);
-
+    // Adicionado [resultado] para ler corretamente as linhas afetadas
+    const [resultado] = await pool.query(query, dadoProduto);
     return resultado.affectedRows;
   }
 
   // ============================================================ //
+
   async apagarProduto(id) {
     await pool.query("DELETE FROM produto WHERE id = ?", [id]);
     return true;
