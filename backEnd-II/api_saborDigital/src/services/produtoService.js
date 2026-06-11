@@ -155,7 +155,7 @@ class ProdutoService {
     }
 
     await ProdutoRepository.atualizarProduto(id, produtoAtualizado);
-    return { sucesso: true, mensagem: "Produto updated!" };
+    return { sucesso: true, mensagem: "Produto atualizado!" };
   }
 
   // ============================================================ //
